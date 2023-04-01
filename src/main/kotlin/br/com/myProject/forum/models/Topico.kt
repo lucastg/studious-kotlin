@@ -2,7 +2,7 @@ package br.com.myProject.forum.models
 
 import java.time.LocalDateTime
 
-data class Topico (
+data class Topico(
     val id: Long? = null,
     val titulo: String,
     val mensagem: String,
@@ -10,6 +10,5 @@ data class Topico (
     val curso: Curso,
     val autor: Usuario,
     val status: StatusTopico = StatusTopico.NAO_RESPONDIDO,
-    val respostas: List<Resposta> = ArrayList()
-
+    val respostas: List<Resposta> = ArrayList(),
 )
