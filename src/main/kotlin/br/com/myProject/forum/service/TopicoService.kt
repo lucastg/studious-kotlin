@@ -1,5 +1,6 @@
 package br.com.myProject.forum.service
 
+import br.com.myProject.forum.dto.AtualizarTopicoFormDTO
 import br.com.myProject.forum.dto.NovoTopicoFormDTO
 import br.com.myProject.forum.dto.TopicoViewDTO
 import br.com.myProject.forum.mapper.TopicoFormMapper
@@ -17,8 +18,8 @@ class TopicoService(
 ) {
 
     fun listar(): List<TopicoViewDTO> {
-        return topicos.stream().map {
-            t -> topicoViewMapper.map(t)
+        return topicos.stream().map { t ->
+            topicoViewMapper.map(t)
         }.collect(Collectors.toList())
     }
 
@@ -34,5 +35,23 @@ class TopicoService(
         val topico = topicoFormMapper.map(form)
         topico.id = topicos.size.toLong() + 1
         topicos = topicos.plus(topico)
+    }
+
+    fun atualizar(form: AtualizarTopicoFormDTO) {
+        val topico = topicos.stream().filter { t ->
+            t.id == form.id
+        }.findFirst().get()
+        topicos = topicos.minus(topico).plus(
+            Topico(
+                id = form.id,
+                titulo = form.titulo,
+                mensagem = form.mensagem,
+                autor = topico.autor,
+                curso = topico.curso,
+                respostas = topico.respostas,
+                status = topico.status,
+                dataCriacao = topico.dataCriacao,
+            )
+        )
     }
 }
